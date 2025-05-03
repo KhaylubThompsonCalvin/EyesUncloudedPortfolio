@@ -1,0 +1,17 @@
+flask
+flask-pymongo
+python-dotenv
+openai
+elevenlabs
+gunicorn
+requests
+pandas
+scikit-learn
+networkx
+fastapi
+uvicorn
+flask-cors
+flask-login
+flask-wtf
+passlib[bcrypt]
+flask-mail

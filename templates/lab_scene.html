@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Lab Scene{% endblock %}
+
+{% block content %}
+  <!-- full-viewport canvas container -->
+  <div id="scene-container" style="width:100vw; height:100vh;"></div>
+{% endblock %}
+
+{% block scripts %}
+  <!--
+    Use module-shim here so that es-module-shims can
+    resolve bare imports via the importmap above.
+  -->
+  <script type="module-shim"
+          src="{{ url_for('static', filename='js/landing.js') }}">
+  </script>
+{% endblock %}
+
+
+

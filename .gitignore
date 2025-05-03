@@ -1,2 +1,6 @@
-node_modules/
+# Python artifacts
 __pycache__/
+venv/
+*.py[cod]
+# Environment files
+.env*
