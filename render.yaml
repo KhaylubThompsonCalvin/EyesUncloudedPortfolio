@@ -1,23 +1,31 @@
-services:
+﻿services:
   # ——————————————————————————————————————————————
   # 1) Flask UI
   - type: web
-    name: eyesuncloudedportfolio # → eyesuncloudedportfolio.onrender.com
+    name: eyesuncloudedportfolio     # → eyesuncloudedportfolio.onrender.com
     env: python
     branch: main
     plan: free
 
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --bind 0.0.0.0:$PORT --bind 0.0.0.0:$PORT
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
 
     envVars:
-      - fromDotEnv: true
+      - key: DB_URI
+        fromDotEnv: true
+      - key: SECRET_KEY
+        fromDotEnv: true
+      - key: OPENAI_KEY
+        fromDotEnv: true
+      - key: CLOELIA_API_KEY
+        fromDotEnv: true
+
     healthCheckPath: /status
 
   # ——————————————————————————————————————————————
   # 2) Cloelia FastAPI agent
   - type: web
-    name: cloeliaai # → cloeliaai.onrender.com
+    name: cloeliaai                   # → cloeliaai.onrender.com
     env: python
     branch: main
     plan: free
@@ -26,5 +34,7 @@ services:
     startCommand: uvicorn cloelia_api:app --host=0.0.0.0 --port $PORT
 
     envVars:
-      - fromDotEnv: true
+      - key: CLOELIA_API_KEY
+        fromDotEnv: true
+
     healthCheckPath: /healthz
