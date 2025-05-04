@@ -1,28 +1,30 @@
 services:
-  # â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”
-  # 1) The Flask-based portfolio UI
+  # ——————————————————————————————————————————————
+  # 1) Flask UI
   - type: web
-    name: eyesunclouded-portfolio
+    name: eyesuncloudedportfolio      # subdomain: eyesuncloudedportfolio.onrender.com
     env: python
     branch: main
     plan: free
 
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    startCommand: gunicorn app:app --bind 0.0.0.0:
 
     envVars:
       - fromDotEnv: true
+    healthCheckPath: /status
 
-  # â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”
-  # 2) Your Cloelia FastAPI agent
+  # ——————————————————————————————————————————————
+  # 2) Cloelia FastAPI agent
   - type: web
-    name: cloelia-api
+    name: cloelia-api                 # subdomain: cloelia-api.onrender.com
     env: python
     branch: main
     plan: free
 
     buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn cloelia_api:app --host=0.0.0.0 --port $PORT
+    startCommand: uvicorn cloelia_api:app --host=0.0.0.0 --port 
 
     envVars:
       - fromDotEnv: true
+    healthCheckPath: /healthz
