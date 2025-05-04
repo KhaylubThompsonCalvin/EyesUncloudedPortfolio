@@ -1,8 +1,8 @@
 services:
   # ——————————————————————————————————————————————
-  # 1) The Flask-based portfolio UI
+  # 1) Flask UI
   - type: web
-    name: eyesunclouded-portfolio
+    name: eyesuncloudedportfolio # → eyesuncloudedportfolio.onrender.com
     env: python
     branch: main
     plan: free
@@ -12,11 +12,12 @@ services:
 
     envVars:
       - fromDotEnv: true
+    healthCheckPath: /status
 
   # ——————————————————————————————————————————————
-  # 2) Your Cloelia FastAPI agent
+  # 2) Cloelia FastAPI agent
   - type: web
-    name: cloelia-api
+    name: cloeliaai # → cloeliaai.onrender.com
     env: python
     branch: main
     plan: free
@@ -26,3 +27,4 @@ services:
 
     envVars:
       - fromDotEnv: true
+    healthCheckPath: /healthz
