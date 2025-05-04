@@ -1,10 +1,22 @@
 services:
+  # 1) Your existing Flask portfolio
   - type: web
     name: eyesunclouded-portfolio
     env: python
     branch: main
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "python app.py"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py
+    plan: free
+    envVars:
+      - fromDotEnv: true
+
+  # 2) Your Cloelia AI FastAPI service
+  - type: web
+    name: cloelia-ai
+    env: python
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn cloelia_api:app --host 0.0.0.0 --port $PORT
     plan: free
     envVars:
       - fromDotEnv: true
