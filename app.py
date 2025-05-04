@@ -74,3 +74,6 @@ def healthz():
 @app.route('/healthz')
 def healthz():
     return 'OK', 200
+@app.route('/healthz')
+def healthz():
+    return 'OK', 200
