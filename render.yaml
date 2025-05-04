@@ -1,5 +1,5 @@
 services:
-  # 1) Your existing Flask portfolio
+  # Flask UI
   - type: web
     name: eyesunclouded-portfolio
     env: python
@@ -10,7 +10,7 @@ services:
     envVars:
       - fromDotEnv: true
 
-  # 2) Your Cloelia AI FastAPI service
+  # Cloelia FastAPI agent
   - type: web
     name: cloelia-ai
     env: python

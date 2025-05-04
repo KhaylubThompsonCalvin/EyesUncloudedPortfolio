@@ -1,34 +1,38 @@
 # cloelia_api.py
-from fastapi import FastAPI, Header, HTTPException
-from pydantic import BaseModel
-import os
-from dotenv import load_dotenv
 
-load_dotenv()        # so EnvVars from .env get picked up
+from fastapi import FastAPI, HTTPException, Header
+from pydantic import BaseModel
+from dotenv import load_dotenv
+import os
+
+load_dotenv()  # read your .env
+
+CLOELIA_KEY = os.getenv("CLOELIA_API_KEY")
+
+app = FastAPI()
 
 class EmotionRequest(BaseModel):
     emotion: str
 
-app = FastAPI()
-
 @app.get("/")
-def root():
-    return {"message": "Cloelia is alive at the root route!"}
+async def root():
+    return {"message": "Cloelia FastAPI is running!"}
 
 @app.post("/analyze-emotion")
-def analyze_emotion(
+async def analyze_emotion(
     payload: EmotionRequest,
     authorization: str = Header(None)
 ):
-    # verify header
+    # check Bearer token
     if not authorization or not authorization.startswith("Bearer "):
-        raise HTTPException(401, "Missing or invalid Authorization header")
-    api_key = authorization.split(" ", 1)[1]
-    if api_key != os.getenv("CLOELIA_API_KEY"):
-        raise HTTPException(403, "Bad API key")
+        raise HTTPException(401, "Missing auth header")
+    token = authorization.split(" ", 1)[1]
+    if token != CLOELIA_KEY:
+        raise HTTPException(401, "Invalid API key")
 
-    # TODO: call OpenAI / ElevenLabs here
+    # TODO: plug in your real emotion‐analysis logic here
     return {
-        "emotion_received": payload.emotion,
-        "analysis": f"🔍 (pretend we ran AI on “{payload.emotion}”)"
+        "emotion": payload.emotion,
+        "analysis": f"Received and processed: {payload.emotion}"
     }
+
