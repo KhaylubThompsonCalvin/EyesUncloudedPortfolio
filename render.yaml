@@ -1,22 +1,28 @@
 services:
-  # Flask UI
+  # ——————————————————————————————————————————————
+  # 1) The Flask-based portfolio UI
   - type: web
     name: eyesunclouded-portfolio
     env: python
     branch: main
-    buildCommand: pip install -r requirements.txt
-    startCommand: python app.py
     plan: free
+
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+
     envVars:
       - fromDotEnv: true
 
-  # Cloelia FastAPI agent
+  # ——————————————————————————————————————————————
+  # 2) Your Cloelia FastAPI agent
   - type: web
-    name: cloelia-ai
+    name: cloelia-api
     env: python
     branch: main
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn cloelia_api:app --host 0.0.0.0 --port $PORT
     plan: free
+
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn cloelia_api:app --host=0.0.0.0 --port $PORT
+
     envVars:
       - fromDotEnv: true
